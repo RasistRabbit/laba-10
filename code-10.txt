@@ -1,0 +1,67 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+void printArray(int* arr, int size) {
+    for (int i = 0; i < size; ++i) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+int main() {
+    int size;
+    std::cout << "Введите размер массива: ";
+    std::cin >> size;
+
+    // Выделяем память под массив
+    int* array = new int[size];
+
+    // Заполнение массива случайными числами от 1 до 100
+    srand(time(nullptr));
+    for (int i = 0; i < size; ++i) {
+        array[i] = rand() % 100 + 1;
+    }
+
+    std::cout << "Исходный массив: ";
+    printArray(array, size);
+
+    // Удаление элемента с заданным номером (нумерация с 0)
+    int deleteIndex;
+    std::cout << "Введите номер элемента для удаления (от 0 до " << size - 1 << "): ";
+    std::cin >> deleteIndex;
+
+    if (deleteIndex >= 0 && deleteIndex < size) {
+        for (int i = deleteIndex; i < size - 1; ++i) {
+            array[i] = array[i + 1];
+        }
+        size--; // Уменьшаем размер массива
+    } else {
+        std::cout << "Неверный номер элемента для удаления." << std::endl;
+    }
+
+    // Добавление элемента с заданным номером
+    int addIndex, newValue;
+    std::cout << "Введите номер элемента для добавления (от 0 до " << size << "): ";
+    std::cin >> addIndex;
+    std::cout << "Введите значение нового элемента: ";
+    std::cin >> newValue;
+
+    if (addIndex >= 0 && addIndex <= size) {
+        for (int i = size; i > addIndex; --i) {
+            array[i] = array[i - 1];
+        }
+        array[addIndex] = newValue;
+        size++; // Увеличиваем размер массива
+    } else {
+        std::cout << "Неверный номер элемента для добавления." << std::endl;
+    }
+
+    std::cout << "Итоговый массив: ";
+    printArray(array, size);
+
+    // Освобождение памяти, выделенной под массив
+    delete[] array;
+
+    return 0;
+}
